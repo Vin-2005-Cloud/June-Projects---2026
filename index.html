@@ -1,0 +1,807 @@
+<!doctype html>
+
+<html class="dark" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VELOCITY | APEX-1</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&amp;family=Hanken+Grotesk:wght@300;400;700&amp;family=JetBrains+Mono:wght@700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error": "#690005",
+              surface: "#131313",
+              error: "#ffb4ab",
+              "on-secondary-fixed-variant": "#454747",
+              background: "#131313",
+              "on-background": "#e2e2e2",
+              "on-tertiary-container": "#656464",
+              tertiary: "#ffffff",
+              "surface-variant": "#353535",
+              "inverse-surface": "#e2e2e2",
+              "inverse-on-surface": "#303030",
+              "tertiary-container": "#e5e2e1",
+              "surface-container-high": "#2a2a2a",
+              "error-container": "#93000a",
+              "secondary-container": "#454747",
+              "on-primary-fixed": "#181e00",
+              "on-primary-fixed-variant": "#3f4c00",
+              "surface-container-highest": "#353535",
+              "primary-container": "#ccf200",
+              "on-surface": "#e2e2e2",
+              "on-surface-variant": "#c5c9ac",
+              "surface-container-low": "#1b1b1b",
+              "secondary-fixed": "#e2e2e2",
+              "outline-variant": "#454932",
+              "on-error-container": "#ffdad6",
+              "on-tertiary": "#313030",
+              "on-primary": "#2b3400",
+              "on-secondary-fixed": "#1a1c1c",
+              "on-primary-container": "#5a6c00",
+              "on-tertiary-fixed": "#1c1b1b",
+              "surface-tint": "#b3d400",
+              outline: "#8f9378",
+              "surface-container": "#1f1f1f",
+              "on-secondary-container": "#b4b5b5",
+              "primary-fixed": "#ccf200",
+              secondary: "#c6c6c7",
+              primary: "#ffffff",
+              "surface-container-lowest": "#0e0e0e",
+              "on-secondary": "#2f3131",
+              "tertiary-fixed": "#e5e2e1",
+              "tertiary-fixed-dim": "#c8c6c5",
+              "surface-dim": "#131313",
+              "surface-bright": "#393939",
+              "inverse-primary": "#546500",
+              "on-tertiary-fixed-variant": "#474746",
+              "secondary-fixed-dim": "#c6c6c7",
+              "primary-fixed-dim": "#b3d400",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "container-max": "1280px",
+              gutter: "24px",
+              "margin-mobile": "20px",
+              unit: "4px",
+              "margin-desktop": "64px",
+            },
+            fontFamily: {
+              "headline-lg-mobile": ["Archivo Narrow"],
+              "headline-xl": ["Archivo Narrow"],
+              "body-md": ["Hanken Grotesk"],
+              "headline-md": ["Archivo Narrow"],
+              "headline-lg": ["Archivo Narrow"],
+              "body-lg": ["Hanken Grotesk"],
+              "label-caps": ["JetBrains Mono"],
+            },
+            fontSize: {
+              "headline-lg-mobile": [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "headline-xl": [
+                "72px",
+                {
+                  lineHeight: "1.1",
+                  letterSpacing: "-0.04em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-md": ["16px", { lineHeight: "1.5", fontWeight: "400" }],
+              "headline-md": [
+                "24px",
+                { lineHeight: "1.2", letterSpacing: "0em", fontWeight: "600" },
+              ],
+              "headline-lg": [
+                "48px",
+                {
+                  lineHeight: "1.1",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+              "label-caps": [
+                "12px",
+                { lineHeight: "1", letterSpacing: "0.1em", fontWeight: "700" },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .speed-line {
+        height: 2px;
+        background: linear-gradient(90deg, #ccf200 0%, transparent 100%);
+      }
+      .hazard-pattern {
+        background: repeating-linear-gradient(
+          45deg,
+          #ccf200,
+          #ccf200 10px,
+          #b3d400 10px,
+          #b3d400 20px
+        );
+      }
+      .text-glow {
+        text-shadow: 0 0 15px rgba(204, 242, 0, 0.4);
+      }
+      .grain-overlay {
+        position: absolute;
+        inset: 0;
+        background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+        opacity: 0.05;
+        pointer-events: none;
+      }
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #000000;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #353535;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #ccf200;
+      }
+    </style>
+    <style>
+      body {
+        min-height: max(884px, 100dvh);
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background text-on-background font-body-md overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container"
+  >
+    <!-- TopAppBar -->
+    <header
+      class="fixed top-0 w-full z-50 bg-background dark:bg-background border-b border-surface-variant flex justify-between items-center px-margin-mobile h-16 w-full md:px-margin-desktop"
+    >
+      <div class="flex items-center gap-4">
+        <span
+          class="material-symbols-outlined text-primary dark:text-primary cursor-pointer hover:opacity-80 transition-opacity duration-150 active:scale-95 transition-transform"
+          data-icon="menu"
+          >menu</span
+        >
+        <h1
+          class="font-headline-md text-headline-md italic uppercase tracking-tighter text-primary"
+        >
+          VELOCITY
+        </h1>
+      </div>
+      <div class="flex items-center gap-6">
+        <nav class="hidden md:flex gap-8">
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:opacity-80 transition-opacity duration-150"
+            href="#"
+            >HOME</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-primary hover:opacity-80 transition-opacity duration-150"
+            href="#"
+            >SHOP</a
+          >
+          <a
+            class="font-label-caps text-label-caps text-on-surface-variant hover:opacity-80 transition-opacity duration-150"
+            href="#"
+            >TRAINING</a
+          >
+        </nav>
+        <span
+          class="material-symbols-outlined text-primary dark:text-primary cursor-pointer hover:opacity-80 transition-opacity duration-150 active:scale-95 transition-transform"
+          data-icon="shopping_cart"
+          >shopping_cart</span
+        >
+      </div>
+    </header>
+    <main class="pt-16 pb-24 lg:pb-0">
+      <!-- Hero Section -->
+      <section
+        class="relative w-full h-[530px] md:h-[707px] bg-surface-container-lowest overflow-hidden flex items-center justify-center"
+      >
+        <div class="grain-overlay"></div>
+        <img
+          alt=""
+          class="w-full h-full object-cover opacity-80"
+          data-alt="A hyper-realistic studio product shot of the Apex-1 running shoe, featuring a sleek aerodynamic profile with high-contrast Volt Green accents against a deep obsidian mesh body. The lighting is cinematic and aggressive, with sharp highlights catching the technical textures of the carbon fiber sole. The setting is a minimalist, nocturnal high-tech training lab with a hazy, atmospheric vibe and subtle smoke effects. The image is crisp and editorial, emphasizing performance engineering and elite athleticism."
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtU3j6e-TrWAf8aZJqdqTctkw_TMvEkzbX-DB7mgATPFz56QzVajmyKSroJPwv8FzSuXFhzgQnfg4-lhx2lcce870INND7_R7SJPXNhS9KMBt1YgJWlQmpv8-R8UWTnI1QzpancsowdWPPJ7uskQddBMfHNKummc7GUqQwtCoZP1Fxwkxkmw4LINbVPNRAcG_dJg4zCtvlO0750AFvsxJqFg3qjXSQPO719whxZ4ebKuar49F8t4CclTSFgwLf2fVYcl5KoOhJ8o4"
+        />
+        <div
+          class="absolute bottom-0 left-0 w-full p-6 md:p-margin-desktop bg-gradient-to-t from-background to-transparent"
+        >
+          <div
+            class="flex flex-col md:flex-row md:items-end justify-between gap-4"
+          >
+            <div>
+              <span
+                class="font-label-caps text-label-caps text-primary-fixed bg-on-primary-fixed-variant px-2 py-1 inline-block mb-2"
+                >PRO PERFORMANCE</span
+              >
+              <h2
+                class="font-headline-xl text-[48px] md:text-headline-xl text-primary leading-none uppercase italic"
+              >
+                APEX-1
+              </h2>
+            </div>
+            <div class="flex flex-col items-start md:items-end">
+              <p
+                class="font-label-caps text-label-caps text-on-surface-variant mb-1"
+              >
+                MSRP
+              </p>
+              <p class="font-headline-md text-headline-md text-primary">
+                $240.00
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div
+        class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-gutter mt-12"
+      >
+        <!-- Technical Specs (Bento Style) -->
+        <div class="lg:col-span-7 space-y-gutter">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+            <!-- Weight -->
+            <div
+              class="bg-surface-container p-8 relative border border-surface-variant group hover:border-primary-fixed transition-colors duration-300"
+            >
+              <div class="speed-line absolute top-0 left-0"></div>
+              <span
+                class="material-symbols-outlined text-primary-fixed mb-4 block"
+                data-icon="weight"
+                >weight</span
+              >
+              <h3
+                class="font-label-caps text-label-caps text-on-surface-variant mb-2"
+              >
+                ULTRA-LIGHT WEIGHT
+              </h3>
+              <p class="font-headline-md text-headline-md text-primary">
+                185 GRAMS
+              </p>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant mt-4 opacity-70"
+              >
+                Engineered with a proprietary monofilament mesh for weightless
+                agility.
+              </p>
+            </div>
+            <!-- Energy Return -->
+            <div
+              class="bg-surface-container p-8 relative border border-surface-variant group hover:border-primary-fixed transition-colors duration-300"
+            >
+              <div class="speed-line absolute top-0 left-0"></div>
+              <span
+                class="material-symbols-outlined text-primary-fixed mb-4 block"
+                data-icon="bolt"
+                >bolt</span
+              >
+              <h3
+                class="font-label-caps text-label-caps text-on-surface-variant mb-2"
+              >
+                ENERGY RETURN
+              </h3>
+              <p class="font-headline-md text-headline-md text-primary">
+                88% REBOUND
+              </p>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant mt-4 opacity-70"
+              >
+                Nitro-infused foam core providing explosive propulsion with
+                every stride.
+              </p>
+            </div>
+            <!-- Breathability -->
+            <div
+              class="bg-surface-container p-8 relative border border-surface-variant group hover:border-primary-fixed transition-colors duration-300 md:col-span-2"
+            >
+              <div class="speed-line absolute top-0 left-0 w-1/3"></div>
+              <div class="flex flex-col md:flex-row gap-8 items-start">
+                <div class="flex-shrink-0">
+                  <span
+                    class="material-symbols-outlined text-primary-fixed mb-4 block"
+                    data-icon="air"
+                    >air</span
+                  >
+                  <h3
+                    class="font-label-caps text-label-caps text-on-surface-variant mb-2"
+                  >
+                    AERATION FLOW
+                  </h3>
+                  <p class="font-headline-md text-headline-md text-primary">
+                    MAX AIRFLOW
+                  </p>
+                </div>
+                <div class="flex-grow pt-4">
+                  <div
+                    class="w-full bg-surface-container-high h-2 relative overflow-hidden"
+                  >
+                    <div
+                      class="hazard-pattern h-full w-[94%] transition-all duration-1000"
+                    ></div>
+                  </div>
+                  <div
+                    class="flex justify-between mt-2 font-label-caps text-[10px] text-on-surface-variant"
+                  >
+                    <span>STATIC</span>
+                    <span>PEAK VELOCITY</span>
+                  </div>
+                  <p
+                    class="font-body-md text-body-md text-on-surface-variant mt-4 opacity-70"
+                  >
+                    Variable density knit zones allow for targeted cooling in
+                    high-heat zones during intense endurance runs.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Descriptive Text -->
+          <article
+            class="bg-surface-container-lowest p-8 border-l-4 border-primary-fixed"
+          >
+            <h3
+              class="font-headline-md text-headline-md text-primary mb-4 italic uppercase"
+            >
+              THE SCIENCE OF SPEED
+            </h3>
+            <p
+              class="font-body-lg text-body-lg text-on-background leading-relaxed"
+            >
+              The Apex-1 isn't just a shoe; it's a piece of technical equipment
+              designed for the elite athlete. By integrating a full-length
+              carbon-fiber plate with our patented V-Core foam, we've created a
+              mechanical advantage that reduces muscle fatigue and maximizes
+              horizontal displacement.
+            </p>
+          </article>
+        </div>
+        <!-- Configuration & Buy (Sidebar) -->
+        <aside class="lg:col-span-5 space-y-8 pb-24 md:pb-0">
+          <div
+            class="bg-surface-container p-8 border border-surface-variant sticky top-24"
+          >
+            <h3
+              class="font-label-caps text-label-caps text-primary mb-6 border-b border-surface-variant pb-2"
+            >
+              SPECIFICATIONS
+            </h3>
+            <!-- Color Selector -->
+            <div class="mb-8">
+              <label
+                class="font-label-caps text-label-caps text-on-surface-variant block mb-4"
+                >SELECT CORE COLORWAY</label
+              >
+              <div class="flex gap-4">
+                <button
+                  aria-label="Volt Green"
+                  class="w-12 h-12 border-2 border-primary-fixed bg-primary-container p-1 active:scale-95 transition-transform"
+                ></button>
+                <button
+                  aria-label="Stealth Black"
+                  class="w-12 h-12 border-2 border-transparent bg-on-secondary-fixed-variant hover:border-white/20 active:scale-95 transition-transform"
+                ></button>
+                <button
+                  aria-label="Racing Red"
+                  class="w-12 h-12 border-2 border-transparent bg-error-container hover:border-white/20 active:scale-95 transition-transform"
+                ></button>
+              </div>
+            </div>
+            <!-- Size Selector -->
+            <div class="mb-8">
+              <div class="flex justify-between items-center mb-4">
+                <label
+                  class="font-label-caps text-label-caps text-on-surface-variant"
+                  >SIZE (US MEN)</label
+                >
+                <button
+                  class="text-primary font-label-caps text-[10px] underline underline-offset-4 hover:opacity-70"
+                >
+                  SIZE GUIDE
+                </button>
+              </div>
+              <div class="grid grid-cols-4 gap-2">
+                <button
+                  class="border border-surface-variant py-3 font-label-caps text-label-caps hover:bg-white hover:text-black transition-colors active:scale-95"
+                >
+                  7
+                </button>
+                <button
+                  class="border border-surface-variant py-3 font-label-caps text-label-caps hover:bg-white hover:text-black transition-colors active:scale-95"
+                >
+                  8
+                </button>
+                <button
+                  class="border border-surface-variant py-3 font-label-caps text-label-caps hover:bg-white hover:text-black transition-colors active:scale-95"
+                >
+                  9
+                </button>
+                <button
+                  class="border border-primary-fixed bg-primary-fixed text-on-primary-fixed py-3 font-label-caps text-label-caps active:scale-95"
+                >
+                  10
+                </button>
+                <button
+                  class="border border-surface-variant py-3 font-label-caps text-label-caps hover:bg-white hover:text-black transition-colors active:scale-95"
+                >
+                  11
+                </button>
+                <button
+                  class="border border-surface-variant py-3 font-label-caps text-label-caps hover:bg-white hover:text-black transition-colors active:scale-95"
+                >
+                  12
+                </button>
+                <button
+                  class="border border-surface-variant py-3 font-label-caps text-label-caps opacity-30 cursor-not-allowed"
+                >
+                  13
+                </button>
+                <button
+                  class="border border-surface-variant py-3 font-label-caps text-label-caps hover:bg-white hover:text-black transition-colors active:scale-95"
+                >
+                  14
+                </button>
+              </div>
+            </div>
+            <!-- Details Accordion -->
+            <div class="border-t border-surface-variant">
+              <details
+                class="group py-4 border-b border-surface-variant cursor-pointer"
+              >
+                <summary class="flex justify-between items-center list-none">
+                  <span
+                    class="font-label-caps text-label-caps text-on-surface-variant"
+                    >MATERIAL TECH</span
+                  >
+                  <span
+                    class="material-symbols-outlined group-open:rotate-180 transition-transform"
+                    data-icon="expand_more"
+                    >expand_more</span
+                  >
+                </summary>
+                <div
+                  class="mt-4 font-body-md text-on-surface-variant text-sm opacity-80 leading-relaxed"
+                >
+                  Triple-density foam injection with reinforced TPU cage. The
+                  outsole features ultra-high abrasion rubber for maximum grip
+                  on both track and asphalt surfaces.
+                </div>
+              </details>
+              <details
+                class="group py-4 border-b border-surface-variant cursor-pointer"
+              >
+                <summary class="flex justify-between items-center list-none">
+                  <span
+                    class="font-label-caps text-label-caps text-on-surface-variant"
+                    >SHIPPING &amp; RETURNS</span
+                  >
+                  <span
+                    class="material-symbols-outlined group-open:rotate-180 transition-transform"
+                    data-icon="expand_more"
+                    >expand_more</span
+                  >
+                </summary>
+                <div
+                  class="mt-4 font-body-md text-on-surface-variant text-sm opacity-80 leading-relaxed"
+                >
+                  Free 2-day delivery for Velocity Club members. 30-day "Run In
+                  Them" guarantee—if they don't help you set a PR, send them
+                  back for a full refund.
+                </div>
+              </details>
+            </div>
+          </div>
+        </aside>
+      </div>
+      <!-- Tech Breakdown Section -->
+      <section
+        class="mt-24 bg-surface-container-lowest py-20 border-y border-surface-variant"
+      >
+        <div
+          class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid md:grid-cols-2 gap-16 items-center"
+        >
+          <div
+            class="relative aspect-video bg-black overflow-hidden border border-surface-variant"
+          >
+            <img
+              alt=""
+              class="w-full h-full object-cover"
+              data-alt="An artistic high-tech exploded view diagram of the Apex-1 shoe components floating in a void. The carbon fiber plate, foam midsole, and mesh upper are rendered in a blueprint-style with glowing Volt Green highlights. The background is pure black with technical data overlays and telemetry lines. The lighting is harsh and surgical, highlighting the industrial design and performance engineering of the sports footwear."
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtv_CGjX7fiJXTkD9h82Nc2OWidCfBMfFZeXXuazhukyoqW6mGz2vAkoZcBO_osg7mhixoZ_PVvRBLcysBeah6lB5dJBSCjI9nyKQ3LOrYmpm10sxOG7GJQ-7crMbDvYrDLPt-bKbnjz0Iplpk8FOroCOnR-G9gWl_DYod8u3JrvILi5vbtcq2_rzlK0db-JGfsYCRqhSwXxgYC3foycjz1ZfrXvzPPrF-0rq59rARqjkXgZCuDxT4oBLYW3HaOsY6Hk_oOAqem4U"
+            />
+            <div
+              class="absolute top-4 left-4 bg-primary-fixed text-on-primary-fixed px-3 py-1 font-label-caps text-[10px]"
+            >
+              INTERNAL SCHEMATIC
+            </div>
+          </div>
+          <div>
+            <h2
+              class="font-headline-lg text-headline-lg text-primary uppercase italic mb-6"
+            >
+              INTELLIGENT COMPRESSION
+            </h2>
+            <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
+              The V-Core midsole reacts to your specific foot strike. Utilizing
+              3D-mapped strike zones, the shoe provides firmer support at the
+              heel and a softer, more responsive cushion at the forefoot to
+              facilitate rapid turnover.
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-center gap-4">
+                <span
+                  class="material-symbols-outlined text-primary-fixed"
+                  data-icon="check_circle"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >check_circle</span
+                >
+                <span class="font-label-caps text-label-caps"
+                  >CARBON FIBER PROPULSION</span
+                >
+              </div>
+              <div class="flex items-center gap-4">
+                <span
+                  class="material-symbols-outlined text-primary-fixed"
+                  data-icon="check_circle"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >check_circle</span
+                >
+                <span class="font-label-caps text-label-caps"
+                  >DYNAMIC HEEL LOCKDOWN</span
+                >
+              </div>
+              <div class="flex items-center gap-4">
+                <span
+                  class="material-symbols-outlined text-primary-fixed"
+                  data-icon="check_circle"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >check_circle</span
+                >
+                <span class="font-label-caps text-label-caps"
+                  >REFLECTIVE NIGHT-STREAK LACES</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- High-Impact Neon Sticky Button -->
+    <div
+      class="fixed bottom-0 left-0 w-full z-50 p-4 md:p-6 lg:relative lg:p-0"
+    >
+      <div class="max-w-container-max mx-auto">
+        <button
+          class="w-full bg-primary-container text-on-primary-container font-headline-md text-headline-md py-6 uppercase italic tracking-tighter shadow-[0_-10px_40px_rgba(204,242,0,0.3)] active:scale-[0.98] transition-all hover:brightness-110 flex items-center justify-center gap-4 group"
+        >
+          GET IT NOW
+          <span
+            class="material-symbols-outlined group-hover:translate-x-2 transition-transform"
+            data-icon="arrow_forward"
+            >arrow_forward</span
+          >
+        </button>
+      </div>
+    </div>
+    <!-- BottomNavBar (Mobile Only) -->
+    <nav
+      class="md:hidden fixed bottom-0 w-full z-[60] bg-surface dark:bg-surface border-t border-surface-variant flex justify-around items-center h-20 px-4 pb-safe translate-y-full"
+      id="mobile-nav"
+    >
+      <div
+        class="flex flex-col items-center justify-center text-on-surface-variant pt-2 hover:text-primary transition-colors duration-150 active:scale-90 transition-transform cursor-pointer"
+      >
+        <span class="material-symbols-outlined" data-icon="home">home</span>
+        <span class="font-label-caps text-label-caps mt-1">Home</span>
+      </div>
+      <div
+        class="flex flex-col items-center justify-center text-primary-fixed border-t-2 border-primary-fixed pt-2 hover:text-primary transition-colors duration-150 active:scale-90 transition-transform cursor-pointer"
+      >
+        <span
+          class="material-symbols-outlined"
+          data-icon="grid_view"
+          style="font-variation-settings: &quot;FILL&quot; 1"
+          >grid_view</span
+        >
+        <span class="font-label-caps text-label-caps mt-1">Shop</span>
+      </div>
+      <div
+        class="flex flex-col items-center justify-center text-on-surface-variant pt-2 hover:text-primary transition-colors duration-150 active:scale-90 transition-transform cursor-pointer"
+      >
+        <span class="material-symbols-outlined" data-icon="fitness_center"
+          >fitness_center</span
+        >
+        <span class="font-label-caps text-label-caps mt-1">Training</span>
+      </div>
+      <div
+        class="flex flex-col items-center justify-center text-on-surface-variant pt-2 hover:text-primary transition-colors duration-150 active:scale-90 transition-transform cursor-pointer"
+      >
+        <span class="material-symbols-outlined" data-icon="person">person</span>
+        <span class="font-label-caps text-label-caps mt-1">Profile</span>
+      </div>
+    </nav>
+    <footer
+      class="bg-surface-container-lowest pt-20 pb-32 border-t border-surface-variant"
+    >
+      <div
+        class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop grid grid-cols-1 md:grid-cols-4 gap-12"
+      >
+        <div class="md:col-span-2">
+          <h2
+            class="font-headline-md text-headline-md italic uppercase tracking-tighter text-primary mb-6"
+          >
+            VELOCITY
+          </h2>
+          <p class="font-body-md text-on-surface-variant max-w-sm opacity-60">
+            Engineered for those who refuse to stop. Our equipment is forged in
+            the fires of elite performance and tested by world-record holders.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-label-caps text-label-caps text-primary mb-6">
+            EQUIPMENT
+          </h4>
+          <ul
+            class="space-y-4 font-label-caps text-[10px] text-on-surface-variant"
+          >
+            <li>
+              <a class="hover:text-primary transition-colors" href="#"
+                >RUNNING</a
+              >
+            </li>
+            <li>
+              <a class="hover:text-primary transition-colors" href="#"
+                >RECOVERY</a
+              >
+            </li>
+            <li>
+              <a class="hover:text-primary transition-colors" href="#"
+                >TRACK APPAREL</a
+              >
+            </li>
+            <li>
+              <a class="hover:text-primary transition-colors" href="#"
+                >ACCESSORIES</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-label-caps text-label-caps text-primary mb-6">
+            SUPPORT
+          </h4>
+          <ul
+            class="space-y-4 font-label-caps text-[10px] text-on-surface-variant"
+          >
+            <li>
+              <a class="hover:text-primary transition-colors" href="#"
+                >ORDER TRACKING</a
+              >
+            </li>
+            <li>
+              <a class="hover:text-primary transition-colors" href="#"
+                >RETURNS POLICY</a
+              >
+            </li>
+            <li>
+              <a class="hover:text-primary transition-colors" href="#"
+                >CONTACT TECH</a
+              >
+            </li>
+            <li>
+              <a class="hover:text-primary transition-colors" href="#"
+                >PRIVACY POLICY</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mt-20 pt-8 border-t border-surface-variant flex flex-col md:flex-row justify-between items-center gap-4"
+      >
+        <p
+          class="font-label-caps text-[10px] text-on-surface-variant opacity-40"
+        >
+          © 2024 VELOCITY PERFORMANCE LABS. ALL RIGHTS RESERVED.
+        </p>
+        <div class="flex gap-6">
+          <span
+            class="material-symbols-outlined text-on-surface-variant opacity-40 hover:opacity-100 cursor-pointer"
+            data-icon="public"
+            >public</span
+          >
+          <span
+            class="material-symbols-outlined text-on-surface-variant opacity-40 hover:opacity-100 cursor-pointer"
+            data-icon="share"
+            >share</span
+          >
+        </div>
+      </div>
+    </footer>
+    <script>
+      // Subtle scroll effects for "Hazard" progress bars
+      window.addEventListener("scroll", () => {
+        const bars = document.querySelectorAll(".hazard-pattern");
+        bars.forEach((bar) => {
+          const rect = bar.getBoundingClientRect();
+          if (rect.top < window.innerHeight) {
+            bar.style.width = bar.dataset.target || "94%";
+          }
+        });
+
+        // Show mobile nav on scroll up, hide on scroll down
+        const mobileNav = document.getElementById("mobile-nav");
+        let lastScrollY = window.scrollY;
+        if (window.innerWidth < 768) {
+          if (
+            window.scrollY > 300 &&
+            window.scrollY < document.documentElement.scrollHeight - 1000
+          ) {
+            mobileNav.classList.remove("translate-y-full");
+          } else {
+            mobileNav.classList.add("translate-y-full");
+          }
+        }
+      });
+
+      // Size selector interaction
+      const sizeBtns = document.querySelectorAll("aside .grid button");
+      sizeBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          if (!btn.classList.contains("opacity-30")) {
+            sizeBtns.forEach((b) => {
+              b.classList.remove(
+                "bg-primary-fixed",
+                "text-on-primary-fixed",
+                "border-primary-fixed",
+              );
+              b.classList.add("border-surface-variant");
+            });
+            btn.classList.add(
+              "bg-primary-fixed",
+              "text-on-primary-fixed",
+              "border-primary-fixed",
+            );
+            btn.classList.remove("border-surface-variant");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

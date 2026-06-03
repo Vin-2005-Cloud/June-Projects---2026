@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bento Box Analytics Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <!-- The aside is for our navigation bar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <div class="logo-icon">
+          <img src="images/logo-icon.png" alt="" width="35px" height="35px" />
+        </div>
+        <h1>DashBoard</h1>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a class="active" href="#">Overview</a></li>
+          <li><a href="#">Analytics</a></li>
+          <li><a href="#">Schedules</a></li>
+          <li><a href="#">Settings</a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-profile">
+        <div class="avatar">
+          <img src="images/avatar-image.png" alt="" />
+        </div>
+        <div class="profile-info">
+          <span class="user-name">User Account</span>
+          <span class="user-role">Administrator</span>
+        </div>
+      </div>
+    </aside>
+
+    <!--  -->
+    <div class="main-content-wrapper">
+      <header class="top-header">
+        <button id="menu-toggle" class="menu-toggle-btn">☰</button>
+        <div class="header-greeting">
+          <h1>Welcome back, Vin</h1>
+          <p>Here is what's happening with your projects today.</p>
+        </div>
+
+        <div class="header-actions">
+          <div class="search-box">
+            <input type="text" placeholder="Search Box" />
+          </div>
+          <button class="notification-btn">
+            <span class="bell-icon">🔔</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main is for our main grid layout -->
+      <main class="bento-container">
+        <!-- and section for individual widgets -->
+        <section class="bento-box" id="bento-1">
+          <!-- <h4 class="title">Data Analytics</h4> -->
+          <canvas id="myBentoChart"></canvas>
+          <p class="content"></p>
+        </section>
+        <section class="bento-box" id="bento-2">
+          <span class="card-label">Total Users</span>
+          <h2 class="card-value">1,482</h2>
+          <span class="card-trend upward">+8.2%</span>
+        </section>
+        <section class="bento-box" id="bento-3">
+          <span class="card-label">System Status</span>
+          <div class="status-indicator">
+            <div class="status-dot green">
+              <span class="status-text">All systems nominal</span>
+            </div>
+          </div>
+        </section>
+        <section class="bento-box" id="bento-4">
+          <span class="card-label">Recent Updates</span>
+          <ul class="activity-list">
+            <li><strong>08:15 AM</strong> - Database backup completed</li>
+            <li><strong>09:30 AM</strong> - New user registered (ID #921)</li>
+            <li><strong>Yesterday</strong> - Server patch v1.4 applied</li>
+          </ul>
+        </section>
+        <section class="bento-box" id="bento-5">
+          <span class="card-label">Quick Actions</span>
+          <div class="action-row">
+            <button class="action-btn primary">Export Logs</button>
+            <button class="action-btn secondary">Refresh Data</button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer></footer>
+    <script src="script.js"></script>
+  </body>
+</html>
